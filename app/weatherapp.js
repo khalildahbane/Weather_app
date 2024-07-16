@@ -1,226 +1,128 @@
+const container = document.querySelector(".container");
+const search = document.querySelector(".search-box button");
+const weatherBox = document.querySelector(".weather-box");
+const weatherDetails = document.querySelector(".weather-details");
+const error404 = document.querySelector(".not-found");
+const cityHide = document.querySelector(".city-hide");
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url(https://images.alphacoders.com/132/1321760.jpeg);
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-  }
-  .container {
-    position: relative;
-    width: 400px;
-    height: 100px;
-    background: rgba(22, 22, 22, 0.1);
-    backdrop-filter: blur(50px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    padding: 20px;
-    color: #fff;
-    transition: height 0.6s ease;
-  }
-  .search-box {
-    position: relative;
-    width: 100%;
-    height: 55px;
-    display: flex;
-    align-items: center;
-  }
-  .search-box input {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    outline: none;
-    border-radius: 10px;
-    font-size: 22px;
-    color: #fff;
-    font-weight: 500;
-    text-transform: uppercase;
-    padding: 0 48px 0 42px;
-  }
-  .search-box input::placeholder {
-    color: #fff;
-    text-transform: capitalize;
-  }
-  .search-box i {
-    position: absolute;
-    left: 10px;
-    font-size: 28px;
-  }
-  .search-box button {
-    position: absolute;
-    right: 0;
-    width: 40px;
-    height: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 28px;
-    color: #fff;
-    padding: 0 40px 0 5px;
-    cursor: pointer;
-  }
-  .weather-box,
-  .weather-details,
-  .not-found {
-    overflow: hidden;
-    visibility: hidden;
-  }
-  .weather-box.active,
-  .weather-details.active,
-  .not-found.active {
-    visibility: visible;
-  }
-  .weather-box .box,
-  .not-found .box {
-    transform: translateY(-100%);
-  }
-  
-  .weather-box.active .box,
-  .not-found.active .box {
-    transform: translateY(0%);
-    transition: transform 1s ease;
-    transition-delay: 0.6s;
-  }
-  .weather-box .box .info-weather {
-    transform: translateY(-120%);
-  }
-  .container.active .weather-box .box .info-weather,
-  .container.active .weather-details .humidity .info-humidity,
-  .container.active .weather-details .wind .info-wind {
-    transform: translateY(0%);
-    transition: transform 1s ease;
-  }
-  
-  .weather-box {
-    text-align: center;
-    margin: 40px 0;
-  }
-  .weather-box img {
-    width: 60%;
-  }
-  .weather-box .temperature {
-    position: relative;
-    font-size: 64px;
-    line-height: 1;
-    font-weight: 700;
-    margin: 20px 0 6px -30px;
-  }
-  .weather-box .temperature span {
-    position: absolute;
-    font-size: 24px;
-    margin-left: 4px;
-  }
-  .weather-box .decription {
-    font-size: 22px;
-    font-weight: 500;
-    text-transform: capitalize;
-  }
-  .weather-details {
-    position: absolute;
-    bottom: 40px;
-    left: 0;
-    width: 100%;
-    padding: 0 20px;
-    display: flex;
-  }
-  .weather-details .humidity .info-humidity,
-  .weather-details .wind .info-wind {
-    transform: translateY(-120%);
-    overflow: hidden;
-  }
-  .weather-details .humidity,
-  .weather-details .wind {
-    display: flex;
-    align-items: center;
-    width: 50%;
-    transform: translateY(-100%);
-  }
-  .weather-details.active .humidity,
-  .weather-details.active .wind {
-    transform: translateY(0%);
-    transition: transform 1s ease;
-    transition-delay: 1.2s;
-  }
-  
-  .weather-details .humidity {
-    padding-left: 20px;
-    justify-content: flex-start;
-  }
-  .weather-details .wind {
-    padding-right: 20px;
-    justify-content: flex-end;
-  }
-  .weather-details i {
-    font-size: 56px;
-    margin-right: 10px;
-  }
-  
-  .weather-details span {
-    display: inline-block;
-    font-size: 22px;
-    font-weight: 500px;
-  }
-  .weather-details p {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .not-found {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    margin-top: 110px;
-  }
-  .not-found img {
-    width: 65%;
-  }
-  .not-found p {
-    font-size: 22px;
-    font-weight: 500;
-    margin-top: 12px;
-  }
-  .city-hide {
-    display: none;
-  }
-  #clone-info-weather,
-  #clone-info-humidity,
-  #clone-info-wind {
-    position: absolute;
-    transform: translateY(-100%);
-  }
-  #clone-info-weather .weather {
-    transform: translateY(120%);
-    transition: transform 1s ease, opacity 0s;
-    transition-delay: 0s, 2s;
-  }
-  
-  .weather-box:not(.active) #clone-info-weather .weather {
-    opacity: 0;
-    transition-delay: 0s;
-  }
-  .active-clone#clone-info-weather .weather {
-    transform: translateY(0%);
-  }
-  #clone-info-humidity span,
-  #clone-info-wind span {
-    transform: translateY(100%);
-    transition: transform 1s ease;
-  }
-  
-.active-clone#clone-info-humidity span,
-.active-clone#clone-info-wind span {
-    transform: translateY(0%);
-  }
-  
+search.addEventListener("click", () => {
+  const APIKey = "1de8876972bd1a69dc3332b45c1c5bd3";
+  const city = document.querySelector(".search-box input").value;
+  if (city == "") return;
+
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${APIKey}`
+  )
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.cod == "404") {
+        cityHide.textContent = city;
+        container.style.height = "400px";
+        weatherBox.classList.remove("active");
+        weatherDetails.classList.remove("active");
+        error404.classList.add("active");
+        return;
+      }
+
+      const image = document.querySelector(".weather-box img");
+      const temperature = document.querySelector(".weather-box .temperature");
+      const description = document.querySelector(".weather-box .decription");
+      const humidity = document.querySelector(
+        ".weather-details .humidity span"
+      );
+      const wind = document.querySelector(".weather-details .wind span");
+
+      if (cityHide.textContent == city) {
+        return;
+      } else {
+        cityHide.textContent = city;
+        container.style.height = "555px";
+        container.classList.add("active");
+        weatherBox.classList.add("active");
+        weatherDetails.classList.add("active");
+        error404.classList.remove("active");
+
+        setTimeout(() => {
+          container.classList.remove("active");
+        }, 2500);
+
+        switch (json.weather[0].main) {
+          case "Clear":
+            image.src = "app/images/404.png";
+            break;
+          case "Rain":
+            image.src = "/App/images/rain.png";
+            break;
+          case "Snow":
+            image.src = "/App/images/snow.png";
+            break;
+          case "Clouds":
+            image.src = "/App/images/cloud.png";
+            break;
+          case "Mist":
+            image.src = "/App/images/mist.png";
+            break;
+          case "Haze":
+            image.src = "/App/images/mist.png";
+            break;
+          default:
+            image.src = "/App/images/cloud.png";
+        }
+        temperature.innerHTML = `${parseInt(json.main.temp)}<span>C</span>`;
+        description.innerHTML = `${json.weather[0].description}`;
+        humidity.innerHTML = `${json.main.humidity}%`;
+        wind.innerHTML = `${parseInt(json.wind.speed)}Km/h`;
+
+        const infoWeather = document.querySelector(".info-weather");
+        const infoHumidity = document.querySelector(".info-humidity");
+        const infoWind = document.querySelector(".info-wind");
+
+        const elCloneInfoWeather = infoWeather.cloneNode(true);
+        const elCloneInfoHumidity = infoHumidity.cloneNode(true);
+        const elCloneInfoWind = infoWind.cloneNode(true);
+
+        elCloneInfoWeather.id = "clone-info-weather";
+        elCloneInfoWeather.classList.add("active-clone");
+
+        elCloneInfoHumidity.id = "clone-info-humidity";
+        elCloneInfoHumidity.classList.add("active-clone");
+
+        elCloneInfoWind.id = "clone-info-wind";
+        elCloneInfoWind.classList.add("active-clone");
+
+        setTimeout(() => {
+          infoWeather.insertAdjacentElement("afterend", elCloneInfoWeather);
+          infoHumidity.insertAdjacentElement("afterend", elCloneInfoHumidity);
+          infoWind.insertAdjacentElement("afterend", elCloneInfoWind);
+        }, 2200);
+
+        const cloneInfoWeather = document.querySelectorAll(
+          ".info-weather.active-clone"
+        );
+        const totalCloneInfoWeather = cloneInfoWeather.length;
+        const cloneInfoWeatherFirst = cloneInfoWeather[0];
+
+        const cloneInfoHumidity = document.querySelectorAll(
+          ".info-humidity.active-clone"
+        );
+        const cloneInfoHumidityFirst = cloneInfoHumidity[0];
+
+        const cloneInfoWind = document.querySelectorAll(
+          ".info-wind.active-clone"
+        );
+        const cloneInfoWindFirst = cloneInfoWind[0];
+
+        if (totalCloneInfoWeather > 0) {
+          cloneInfoWeatherFirst.classList.remove("active-clone");
+          cloneInfoHumidityFirst.classList.remove("active-clone");
+          cloneInfoWindFirst.classList.remove("active-clone");
+
+          setTimeout(() => {
+            cloneInfoWeatherFirst.remove();
+            cloneInfoHumidityFirst.remove();
+            cloneInfoWindFirst.remove();
+          }, 2200);
+        }
+      }
+    });
+});
